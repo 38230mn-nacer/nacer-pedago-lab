@@ -44,10 +44,10 @@ Le gateway :
 
 | Service | Workflow | État |
 |---|---|---|
-| `visual-pedago-v1` | `NACER_VISUAL_PEDAGO_V1` | scaffold implémenté |
-| `capsule-v1` | `NACER_CAPSULE_V1` | prochain |
-| `professeur-nacer-v1` | `PROFESSEUR_NACER_V1` | ensuite |
-| `content-variants-v1` | `NACER_CONTENT_VARIANTS_V1` | ensuite |
+| `creer-visuel-pedagogique-v1` | `NACER_CREER_VISUEL_PEDAGOGIQUE_V1` | scaffold implémenté |
+| `creer-capsule-pedagogique-v1` | `NACER_CREER_CAPSULE_PEDAGOGIQUE_V1` | prochain |
+| `creer-visuel-professeur-nacer-v1` | `NACER_CREER_VISUEL_PROFESSEUR_NACER_V1` | ensuite |
+| `decliner-contenu-multiformat-v1` | `NACER_DECLINER_CONTENU_MULTIFORMAT_V1` | ensuite |
 
 ## État de validation
 
@@ -59,7 +59,7 @@ Un résultat Comfy n'entre jamais automatiquement dans la mémoire durable de Na
 
 ## Données élèves
 
-Les services média ne reçoivent pas d'informations personnelles élèves. Le contrat `visual-pedago-v1` est volontairement strict et rejette les champs inconnus. Nacer OS peut personnaliser pédagogiquement la demande en amont, mais transmet uniquement les informations nécessaires au média.
+Les services média ne reçoivent pas d'informations personnelles élèves. Le contrat `creer-visuel-pedagogique-v1` est volontairement strict et rejette les champs inconnus. Nacer OS peut personnaliser pédagogiquement la demande en amont, mais transmet uniquement les informations nécessaires au média.
 
 ## Couche mathématique déterministe
 
