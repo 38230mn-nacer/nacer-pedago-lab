@@ -1,7 +1,7 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { randomUUID, timingSafeEqual } from "node:crypto";
-import { VisualPedagoRequest, type VisualPedagoResponse } from "./contracts.js";
-import { runVisualPedago } from "./comfy.js";
+import { CreerVisuelPedagogiqueRequest, type CreerVisuelPedagogiqueResponse } from "./contracts.js";
+import { runCreerVisuelPedagogique } from "./comfy.js";
 
 const port = Number(process.env.PORT || 8787);
 
@@ -62,21 +62,21 @@ const server = createServer(async (req, res) => {
       return json(res, 200, {
         services: [
           {
-            id: "visual-pedago-v1",
+            id: "creer-visuel-pedagogique-v1",
             status: "implemented",
-            workflow: "NACER_VISUAL_PEDAGO_V1"
+            workflow: "NACER_CREER_VISUEL_PEDAGOGIQUE_V1"
           },
-          { id: "capsule-v1", status: "planned" },
-          { id: "professeur-nacer-v1", status: "planned" },
-          { id: "content-variants-v1", status: "planned" }
+          { id: "creer-capsule-pedagogique-v1", status: "planned" },
+          { id: "creer-visuel-professeur-nacer-v1", status: "planned" },
+          { id: "decliner-contenu-multiformat-v1", status: "planned" }
         ]
       });
     }
 
-    if (req.method === "POST" && req.url === "/api/v1/visuals/generate") {
+    if (req.method === "POST" && req.url === "/api/v1/visuels-pedagogiques/generer") {
       requireLiveAuth(req);
 
-      const parsed = VisualPedagoRequest.safeParse(await readJson(req));
+      const parsed = CreerVisuelPedagogiqueRequest.safeParse(await readJson(req));
       if (!parsed.success) {
         return json(res, 400, {
           error: "INVALID_REQUEST",
@@ -85,13 +85,13 @@ const server = createServer(async (req, res) => {
       }
 
       const requestId = req.headers["x-request-id"]?.toString() || randomUUID();
-      const run = await runVisualPedago(requestId, parsed.data);
+      const run = await runCreerVisuelPedagogique(requestId, parsed.data);
 
-      const response: VisualPedagoResponse = {
+      const response: CreerVisuelPedagogiqueResponse = {
         requestId,
-        service: "visual-pedago-v1",
+        service: "creer-visuel-pedagogique-v1",
         serviceVersion: "1.0.0",
-        workflow: "NACER_VISUAL_PEDAGO_V1",
+        workflow: "NACER_CREER_VISUEL_PEDAGOGIQUE_V1",
         workflowVersion: run.workflowVersion,
         mode: run.mode,
         status: run.mode === "mock" ? "mocked" : "verification-required",
