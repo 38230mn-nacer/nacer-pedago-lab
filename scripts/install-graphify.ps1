@@ -41,4 +41,4 @@ graphify .
 Write-Host ""
 Write-Host "=== Termine ==="
 Write-Host "Ouvrez graphify-out\graph.html pour explorer le graphe."
-Write-Host "Dans Codex, utilisez ensuite : $graphify ."
+Write-Host "Dans Codex, utilisez ensuite : `$graphify ."
