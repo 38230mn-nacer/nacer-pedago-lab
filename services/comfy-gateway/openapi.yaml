@@ -18,10 +18,10 @@ paths:
       responses:
         "200":
           description: Catalogue
-  /api/v1/visuals/generate:
+  /api/v1/visuels-pedagogiques/generer:
     post:
-      summary: Générer une couche visuelle pédagogique
-      operationId: generateVisualPedagoV1
+      summary: Créer un visuel pédagogique
+      operationId: creerVisuelPedagogiqueV1
       parameters:
         - in: header
           name: X-Request-Id
@@ -36,14 +36,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/VisualPedagoRequest"
+              $ref: "#/components/schemas/CreerVisuelPedagogiqueRequest"
       responses:
         "200":
           description: Génération terminée ou simulée
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/VisualPedagoResponse"
+                $ref: "#/components/schemas/CreerVisuelPedagogiqueResponse"
         "400":
           description: Requête invalide
         "401":
@@ -56,7 +56,7 @@ components:
       type: http
       scheme: bearer
   schemas:
-    VisualPedagoRequest:
+    CreerVisuelPedagogiqueRequest:
       type: object
       additionalProperties: false
       required:
@@ -106,7 +106,7 @@ components:
           minimum: 1
           maximum: 4
           default: 1
-    VisualPedagoResponse:
+    CreerVisuelPedagogiqueResponse:
       type: object
       required:
         - requestId
@@ -123,11 +123,11 @@ components:
         requestId:
           type: string
         service:
-          const: visual-pedago-v1
+          const: creer-visuel-pedagogique-v1
         serviceVersion:
           const: 1.0.0
         workflow:
-          const: NACER_VISUAL_PEDAGO_V1
+          const: NACER_CREER_VISUEL_PEDAGOGIQUE_V1
         workflowVersion:
           type: string
         mode:
