@@ -16,7 +16,7 @@ export const OutputFormat = z.enum([
   "vertical-9-16"
 ]);
 
-export const VisualPedagoRequest = z.object({
+export const CreerVisuelPedagogiqueRequest = z.object({
   topic: z.string().min(2).max(160),
   level: z.string().min(1).max(80),
   objective: z.string().min(5).max(500),
@@ -28,7 +28,7 @@ export const VisualPedagoRequest = z.object({
   variants: z.number().int().min(1).max(4).default(1)
 }).strict();
 
-export type VisualPedagoRequestType = z.infer<typeof VisualPedagoRequest>;
+export type CreerVisuelPedagogiqueRequestType = z.infer<typeof CreerVisuelPedagogiqueRequest>;
 
 export type ServiceStatus =
   | "mocked"
@@ -44,11 +44,11 @@ export type GeneratedAsset = {
   expiresAt: string | null;
 };
 
-export type VisualPedagoResponse = {
+export type CreerVisuelPedagogiqueResponse = {
   requestId: string;
-  service: "visual-pedago-v1";
+  service: "creer-visuel-pedagogique-v1";
   serviceVersion: "1.0.0";
-  workflow: "NACER_VISUAL_PEDAGO_V1";
+  workflow: "NACER_CREER_VISUEL_PEDAGOGIQUE_V1";
   workflowVersion: string;
   mode: "mock" | "live";
   status: ServiceStatus;
