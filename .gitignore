@@ -1,0 +1,12 @@
+# Graphify generated knowledge graph
+graphify-out/
+
+# Python / tooling
+.venv/
+__pycache__/
+*.pyc
+
+# Local secrets and environment
+.env
+.env.*
+!.env.example
