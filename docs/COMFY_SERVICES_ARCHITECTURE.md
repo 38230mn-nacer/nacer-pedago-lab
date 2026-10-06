@@ -34,7 +34,8 @@ Le gateway :
 - transforme une demande pédagogique structurée en prompt d'exécution ;
 - choisit la version de workflow ;
 - masque les détails Comfy ;
-- applique l'idempotence ;
+- porte un identifiant de traçabilité stable ;
+- réserve la déduplication fiable à une couche persistante dédiée (à ajouter ensuite) ;
 - retourne la traçabilité ;
 - impose la vérification humaine ;
 - permet de changer Cloud / deployment / local sans changer Nacer OS.
@@ -80,3 +81,7 @@ Le SDK officiel Comfy API v2 permet d'exécuter le même code sur :
 - un ComfyUI auto-hébergé derrière le proxy v2.
 
 Le changement de surface se fait principalement par `COMFY_BASE_URL`.
+
+## Retry et déduplication
+
+Ne pas utiliser naïvement le même `Idempotency-Key` Comfy comme clé métier Nacer OS. Comfy API v2 rejette la réutilisation d'une clé déjà consommée. Le gateway utilise donc `X-Request-Id` uniquement pour la traçabilité. Une déduplication métier fiable devra stocker `requestId`, état et `comfyJobId` dans une base persistante avant de promettre un retry exactement-une-fois.
