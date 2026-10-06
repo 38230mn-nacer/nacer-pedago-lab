@@ -1,5 +1,5 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
-import { randomUUID } from "node:crypto";
+import { randomUUID, timingSafeEqual } from "node:crypto";
 import { VisualPedagoRequest, type VisualPedagoResponse } from "./contracts.js";
 import { runVisualPedago } from "./comfy.js";
 
@@ -28,6 +28,26 @@ async function readJson(req: IncomingMessage): Promise<unknown> {
   return JSON.parse(Buffer.concat(chunks).toString("utf8"));
 }
 
+function requireLiveAuth(req: IncomingMessage): void {
+  if (process.env.NACER_COMFY_MODE !== "live") return;
+
+  const expected = process.env.NACER_GATEWAY_TOKEN;
+  if (!expected) throw new Error("GATEWAY_TOKEN_MISSING");
+
+  const auth = req.headers.authorization || "";
+  const actual = auth.startsWith("Bearer ") ? auth.slice(7) : "";
+
+  const expectedBuffer = Buffer.from(expected);
+  const actualBuffer = Buffer.from(actual);
+
+  if (
+    expectedBuffer.length !== actualBuffer.length ||
+    !timingSafeEqual(expectedBuffer, actualBuffer)
+  ) {
+    throw new Error("UNAUTHORIZED");
+  }
+}
+
 const server = createServer(async (req, res) => {
   try {
     if (req.method === "GET" && req.url === "/health") {
@@ -54,6 +74,8 @@ const server = createServer(async (req, res) => {
     }
 
     if (req.method === "POST" && req.url === "/api/v1/visuals/generate") {
+      requireLiveAuth(req);
+
       const parsed = VisualPedagoRequest.safeParse(await readJson(req));
       if (!parsed.success) {
         return json(res, 400, {
@@ -62,7 +84,7 @@ const server = createServer(async (req, res) => {
         });
       }
 
-      const requestId = req.headers["idempotency-key"]?.toString() || randomUUID();
+      const requestId = req.headers["x-request-id"]?.toString() || randomUUID();
       const run = await runVisualPedago(requestId, parsed.data);
 
       const response: VisualPedagoResponse = {
@@ -97,8 +119,10 @@ const server = createServer(async (req, res) => {
     const message = error instanceof Error ? error.message : String(error);
     const status =
       message === "PAYLOAD_TOO_LARGE" ? 413 :
+      message === "UNAUTHORIZED" ? 401 :
       message.includes("WORKFLOW_NOT_CONFIGURED") ? 503 :
       message === "COMFY_API_KEY_MISSING" ? 503 :
+      message === "GATEWAY_TOKEN_MISSING" ? 503 :
       500;
 
     return json(res, status, {
