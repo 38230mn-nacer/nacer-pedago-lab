@@ -89,9 +89,10 @@ export async function runVisualPedago(
     buildVisualPedagoPrompt(input)
   );
 
+  // Ne pas réutiliser requestId comme Idempotency-Key Comfy.
+  // Le contrat Comfy v2 rejette la réutilisation d'une clé déjà consommée.
   const job = await client.run(workflow, {
     apiKey,
-    idempotencyKey: requestId,
     timeoutMs: 180_000
   });
 
