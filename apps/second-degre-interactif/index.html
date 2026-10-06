@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Second degré interactif — Maths au Cube</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero">
+  <div>
+    <div class="eyebrow">MATHS AU CUBE · PREMIÈRE SPÉ</div>
+    <h1>Second degré interactif</h1>
+    <p>Observer → choisir la bonne forme → résoudre</p>
+  </div>
+  <div class="badge">Labo pédagogique</div>
+</header>
+
+<main class="grid">
+<section class="card controls">
+  <div class="title"><span>1</span><div><h2>Construis ton trinôme</h2><p>Modifie les coefficients.</p></div></div>
+  <label>a <b id="aValue">1</b></label><input id="a" type="range" min="-5" max="5" value="1">
+  <label>b <b id="bValue">-4</b></label><input id="b" type="range" min="-10" max="10" value="-4">
+  <label>c <b id="cValue">3</b></label><input id="c" type="range" min="-10" max="10" value="3">
+  <div class="presets">
+    <button data-preset="classic">Classique</button>
+    <button data-preset="double">Racine double</button>
+    <button data-preset="none">Pas de racine</button>
+  </div>
+  <div class="main-formula" id="developed"></div>
+  <p class="center">Ordonnée à l'origine : <b id="origin"></b></p>
+</section>
+
+<section class="card graph">
+  <div class="title"><span>2</span><div><h2>Observe la parabole</h2><p>Sommet, racines et f(0) se mettent à jour.</p></div></div>
+  <canvas id="graph" width="760" height="470"></canvas>
+  <div class="legend"><i class="v"></i> sommet <i class="r"></i> racines <i class="o"></i> f(0)</div>
+</section>
+
+<section class="card wide">
+  <div class="title"><span>3</span><div><h2>Trois formes, trois lectures</h2><p>Choisis l'information dont tu as besoin.</p></div></div>
+  <div class="forms">
+    <article class="blue"><small>DÉVELOPPÉE</small><div class="math" id="formDeveloped"></div><p>Coefficients, f(0), Δ.</p></article>
+    <article class="orange"><small>FACTORISÉE</small><div class="math" id="formFactored"></div><p>Racines et signe.</p></article>
+    <article class="green"><small>CANONIQUE</small><div class="math" id="formCanonical"></div><p>Sommet et extremum.</p></article>
+  </div>
+  <div class="facts">
+    <div><small>Δ</small><b id="delta"></b></div>
+    <div><small>Sommet</small><b id="vertex"></b></div>
+    <div><small>Axe</small><b id="axis"></b></div>
+    <div><small>Racines</small><b id="roots"></b></div>
+  </div>
+</section>
+
+<section class="card wide">
+  <div class="title"><span>4</span><div><h2>Quelle forme choisir ?</h2><p>Clique avant de calculer.</p></div></div>
+  <div class="strategies">
+    <button data-answer="factorisee">Je cherche les racines</button>
+    <button data-answer="canonique">Je cherche le minimum / maximum</button>
+    <button data-answer="developpee">Je cherche f(0)</button>
+    <button data-answer="factorisee">Je veux étudier le signe</button>
+  </div>
+  <div id="strategyAnswer" class="answer">Choisis une question.</div>
+</section>
+
+<section class="card wide">
+  <div class="title"><span>5</span><div><h2>Mode défi</h2><p>Décide d'abord. Calcule ensuite.</p></div></div>
+  <div id="challengeQuestion" class="challenge"></div>
+  <div id="challengeOptions" class="options"></div>
+  <div id="challengeFeedback" class="feedback"></div>
+  <button id="newChallenge" class="primary">Nouveau défi</button>
+</section>
+</main>
+
+<footer><b>Réflexe :</b> observer → identifier la question → choisir l'outil le plus simple.</footer>
+<script src="app.js"></script>
+</body>
+</html>

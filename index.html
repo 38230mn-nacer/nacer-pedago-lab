@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Second degré interactif — Maths au Cube</title>
+  <style>
+:root{
+--navy:#0d2b45;--blue:#0b78a8;--orange:#f58220;--green:#26935c;--red:#c83f49;
+--paper:#f4f8fb;--ink:#19384f;--muted:#60798a;--line:#d8e6ee;--white:#fff;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--paper)}
+.hero,.grid,footer{width:min(1180px,calc(100% - 30px));margin:auto}.hero{margin-top:22px;margin-bottom:15px;padding:28px 32px;border-radius:26px;background:linear-gradient(125deg,#0d2b45,#0b78a8);color:white;display:flex;justify-content:space-between;gap:20px;align-items:center;box-shadow:0 14px 40px #0d2b4514}
+.eyebrow{font-size:.75rem;font-weight:900;letter-spacing:.16em;opacity:.82}.hero h1{font-size:clamp(2rem,5vw,3.4rem);line-height:1;margin:8px 0}.hero p{margin:0;opacity:.9}.badge{border:1px solid #ffffff66;background:#ffffff18;padding:10px 15px;border-radius:999px;font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:15px}.card{background:white;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 12px 36px #0d2b4510}.controls{grid-column:span 4}.graph{grid-column:span 8}.wide{grid-column:span 12}
+.title{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px}.title>span{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:white;font-weight:900}.title h2{margin:1px 0 3px;font-size:1.25rem;color:var(--navy)}.title p{margin:0;color:var(--muted);font-size:.9rem}
+.controls label{display:flex;justify-content:space-between;font-weight:800;margin-top:15px}.controls input{width:100%;accent-color:var(--blue)}button{border:0;border-radius:12px;padding:10px 12px;font:inherit;cursor:pointer;font-weight:800}.presets{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}.presets button,.strategies button,.options button{background:#edf5f8;color:var(--navy)}
+.main-formula{margin-top:18px;padding:16px;border-radius:16px;background:var(--navy);color:white;text-align:center;font:700 1.35rem "Cambria Math",serif}.center{text-align:center;color:var(--muted)}
+canvas{width:100%;height:auto;border:1px solid var(--line);border-radius:16px;background:#fff}.legend{margin-top:9px;color:var(--muted);font-size:.82rem}.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin:0 5px 0 14px}.legend .v{background:var(--green)}.legend .r{background:var(--orange)}.legend .o{background:var(--red)}
+.forms{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.forms article{padding:18px;border-radius:18px;border:1px solid}.forms .blue{background:#eaf6fb;border-color:#abd9e9}.forms .orange{background:#fff1e5;border-color:#ffd0aa}.forms .green{background:#eaf8f0;border-color:#aadabc}.forms small,.facts small{font-weight:900;color:var(--muted);letter-spacing:.08em}.math{font:800 1.2rem "Cambria Math",serif;color:var(--navy);margin:10px 0}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}.facts>div{padding:12px;border-radius:14px;background:#f7fafb;border:1px solid var(--line);text-align:center}.facts b{display:block;color:var(--navy);margin-top:4px}
+.strategies{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.answer{margin-top:12px;padding:14px;border-left:5px solid var(--blue);background:#f8fafb;border-radius:14px;font-weight:800}
+.challenge{padding:18px;border-radius:16px;background:linear-gradient(135deg,#f4f9fb,#eef8f1);font:800 1.25rem "Cambria Math",serif;text-align:center}.options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.options button.correct{background:#dff4e8;color:#145b36}.options button.wrong{background:#fde8e9;color:#8c2730}.feedback{min-height:26px;font-weight:800}.primary{background:var(--navy);color:white}
+footer{margin-top:15px;margin-bottom:28px;padding:15px 20px;text-align:center;background:#e6f4ea;border:1px solid #b8ddc5;border-radius:16px;color:var(--navy)}
+@media(max-width:850px){.controls,.graph{grid-column:span 12}.forms,.facts,.strategies,.options{grid-template-columns:1fr}.hero{flex-direction:column;align-items:flex-start}}
+
+</style>
+</head>
+<body>
+<header class="hero">
+  <div>
+    <div class="eyebrow">MATHS AU CUBE · PREMIÈRE SPÉ</div>
+    <h1>Second degré interactif</h1>
+    <p>Observer → choisir la bonne forme → résoudre</p>
+  </div>
+  <div class="badge">Labo pédagogique</div>
+</header>
+
+<main class="grid">
+<section class="card controls">
+  <div class="title"><span>1</span><div><h2>Construis ton trinôme</h2><p>Modifie les coefficients.</p></div></div>
+  <label>a <b id="aValue">1</b></label><input id="a" type="range" min="-5" max="5" value="1">
+  <label>b <b id="bValue">-4</b></label><input id="b" type="range" min="-10" max="10" value="-4">
+  <label>c <b id="cValue">3</b></label><input id="c" type="range" min="-10" max="10" value="3">
+  <div class="presets">
+    <button data-preset="classic">Classique</button>
+    <button data-preset="double">Racine double</button>
+    <button data-preset="none">Pas de racine</button>
+  </div>
+  <div class="main-formula" id="developed"></div>
+  <p class="center">Ordonnée à l'origine : <b id="origin"></b></p>
+</section>
+
+<section class="card graph">
+  <div class="title"><span>2</span><div><h2>Observe la parabole</h2><p>Sommet, racines et f(0) se mettent à jour.</p></div></div>
+  <canvas id="graph" width="760" height="470"></canvas>
+  <div class="legend"><i class="v"></i> sommet <i class="r"></i> racines <i class="o"></i> f(0)</div>
+</section>
+
+<section class="card wide">
+  <div class="title"><span>3</span><div><h2>Trois formes, trois lectures</h2><p>Choisis l'information dont tu as besoin.</p></div></div>
+  <div class="forms">
+    <article class="blue"><small>DÉVELOPPÉE</small><div class="math" id="formDeveloped"></div><p>Coefficients, f(0), Δ.</p></article>
+    <article class="orange"><small>FACTORISÉE</small><div class="math" id="formFactored"></div><p>Racines et signe.</p></article>
+    <article class="green"><small>CANONIQUE</small><div class="math" id="formCanonical"></div><p>Sommet et extremum.</p></article>
+  </div>
+  <div class="facts">
+    <div><small>Δ</small><b id="delta"></b></div>
+    <div><small>Sommet</small><b id="vertex"></b></div>
+    <div><small>Axe</small><b id="axis"></b></div>
+    <div><small>Racines</small><b id="roots"></b></div>
+  </div>
+</section>
+
+<section class="card wide">
+  <div class="title"><span>4</span><div><h2>Quelle forme choisir ?</h2><p>Clique avant de calculer.</p></div></div>
+  <div class="strategies">
+    <button data-answer="factorisee">Je cherche les racines</button>
+    <button data-answer="canonique">Je cherche le minimum / maximum</button>
+    <button data-answer="developpee">Je cherche f(0)</button>
+    <button data-answer="factorisee">Je veux étudier le signe</button>
+  </div>
+  <div id="strategyAnswer" class="answer">Choisis une question.</div>
+</section>
+
+<section class="card wide">
+  <div class="title"><span>5</span><div><h2>Mode défi</h2><p>Décide d'abord. Calcule ensuite.</p></div></div>
+  <div id="challengeQuestion" class="challenge"></div>
+  <div id="challengeOptions" class="options"></div>
+  <div id="challengeFeedback" class="feedback"></div>
+  <button id="newChallenge" class="primary">Nouveau défi</button>
+</section>
+</main>
+
+<footer><b>Réflexe :</b> observer → identifier la question → choisir l'outil le plus simple.</footer>
+<script>
+const $=id=>document.getElementById(id);
+const cvs=$("graph"),ctx=cvs.getContext("2d");
+const E={a:$("a"),b:$("b"),c:$("c"),av:$("aValue"),bv:$("bValue"),cv:$("cValue"),dev:$("developed"),origin:$("origin"),fd:$("formDeveloped"),ff:$("formFactored"),fc:$("formCanonical"),delta:$("delta"),vertex:$("vertex"),axis:$("axis"),roots:$("roots")};
+const fmt=n=>{if(!Number.isFinite(n))return"—";let r=Math.round(n*100)/100;return Number.isInteger(r)?String(r):String(r).replace(".",",")};
+const term=(v,t)=>v===0?"":`${v>0?" + ":" − "}${Math.abs(v)===1&&t?"":fmt(Math.abs(v))}${t}`;
+function developed(a,b,c){return `f(x) = ${a===1?"":a===-1?"−":fmt(a)}x²${term(b,"x")}${term(c,"")}`}
+function model(){let a=+E.a.value,b=+E.b.value,c=+E.c.value;if(a===0){a=1;E.a.value=1}let d=b*b-4*a*c,alpha=-b/(2*a),beta=c-b*b/(4*a),roots=[];if(Math.abs(d)<1e-10)roots=[-b/(2*a)];else if(d>0)roots=[(-b-Math.sqrt(d))/(2*a),(-b+Math.sqrt(d))/(2*a)];return{a,b,c,d,alpha,beta,roots}}
+function canonical(m){let ap=m.a===1?"":m.a===-1?"−":fmt(m.a),inside=Math.abs(m.alpha)<1e-10?"x":`x ${m.alpha>0?"−":"+"} ${fmt(Math.abs(m.alpha))}`,beta=Math.abs(m.beta)<1e-10?"":` ${m.beta>0?"+":"−"} ${fmt(Math.abs(m.beta))}`;return `f(x) = ${ap}(${inside})²${beta}`}
+function factor(m){if(!m.roots.length)return"Pas de factorisation réelle";let ap=m.a===1?"":m.a===-1?"−":fmt(m.a),F=r=>`(x ${r>=0?"−":"+"} ${fmt(Math.abs(r))})`;return m.roots.length===1?`f(x) = ${ap}${F(m.roots[0])}²`:`f(x) = ${ap}${F(m.roots[0])}${F(m.roots[1])}`}
+function update(){let m=model();E.av.textContent=m.a;E.bv.textContent=m.b;E.cv.textContent=m.c;E.dev.textContent=developed(m.a,m.b,m.c);E.origin.textContent=fmt(m.c);E.fd.textContent=developed(m.a,m.b,m.c);E.ff.textContent=factor(m);E.fc.textContent=canonical(m);E.delta.textContent=fmt(m.d);E.vertex.textContent=`S(${fmt(m.alpha)} ; ${fmt(m.beta)})`;E.axis.textContent=`x = ${fmt(m.alpha)}`;E.roots.textContent=!m.roots.length?"aucune réelle":m.roots.length===1?fmt(m.roots[0]):`${fmt(m.roots[0])} et ${fmt(m.roots[1])}`;draw(m)}
+function draw(m){let W=cvs.width,H=cvs.height,xmin=-8,xmax=8,ymin=-12,ymax=12,X=x=>(x-xmin)/(xmax-xmin)*W,Y=y=>H-(y-ymin)/(ymax-ymin)*H;ctx.clearRect(0,0,W,H);ctx.fillStyle="#fff";ctx.fillRect(0,0,W,H);ctx.strokeStyle="#edf2f5";ctx.lineWidth=1;for(let x=-8;x<=8;x++){ctx.beginPath();ctx.moveTo(X(x),0);ctx.lineTo(X(x),H);ctx.stroke()}for(let y=-12;y<=12;y++){ctx.beginPath();ctx.moveTo(0,Y(y));ctx.lineTo(W,Y(y));ctx.stroke()}ctx.strokeStyle="#78909c";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(X(0),0);ctx.lineTo(X(0),H);ctx.stroke();ctx.beginPath();ctx.moveTo(0,Y(0));ctx.lineTo(W,Y(0));ctx.stroke();ctx.strokeStyle="#0b78a8";ctx.lineWidth=4;ctx.beginPath();let started=false;for(let px=0;px<=W;px++){let x=xmin+px/W*(xmax-xmin),y=m.a*x*x+m.b*x+m.c,py=Y(y);if(py>-1000&&py<H+1000){if(!started){ctx.moveTo(px,py);started=true}else ctx.lineTo(px,py)}}ctx.stroke();point(X(m.alpha),Y(m.beta),"#26935c",7);m.roots.forEach(r=>point(X(r),Y(0),"#f58220",7));point(X(0),Y(m.c),"#c83f49",6)}
+function point(x,y,color,r){if(y<0||y>cvs.height)return;ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke()}
+["a","b","c"].forEach(k=>E[k].addEventListener("input",update));
+document.querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>{if(b.dataset.preset==="classic"){E.a.value=1;E.b.value=-4;E.c.value=3}if(b.dataset.preset==="double"){E.a.value=1;E.b.value=-6;E.c.value=9}if(b.dataset.preset==="none"){E.a.value=1;E.b.value=2;E.c.value=5}update()});
+const ans={developpee:"Forme développée : f(0)=c est visible directement.",factorisee:"Forme factorisée : les racines et le signe sont les plus lisibles.",canonique:"Forme canonique : le sommet et l'extremum sont immédiatement lisibles."};
+document.querySelectorAll("[data-answer]").forEach(b=>b.onclick=()=>$("strategyAnswer").textContent=ans[b.dataset.answer]);
+const Q=[
+{q:"Je veux connaître les racines de f. Quelle forme est la plus efficace ?",a:"Factorisée",o:["Développée","Factorisée","Canonique"],w:"La forme factorisée fait apparaître les zéros directement."},
+{q:"Je veux lire le sommet. Quelle forme choisir ?",a:"Canonique",o:["Factorisée","Canonique","Développée"],w:"Dans a(x−α)²+β, le sommet est S(α ; β)."},
+{q:"Je veux connaître immédiatement f(0). Quelle forme est la plus directe ?",a:"Développée",o:["Canonique","Factorisée","Développée"],w:"Dans ax²+bx+c, f(0)=c."},
+{q:"Pour x²−9, que tester avant Δ ?",a:"Identité remarquable",o:["Discriminant","Identité remarquable","Forme canonique"],w:"x²−9=x²−3²=(x−3)(x+3)."},
+{q:"Le trinôme est déjà factorisé et je veux son signe. Dois-je calculer Δ ?",a:"Non",o:["Oui","Non","Toujours"],w:"Les facteurs et leurs zéros suffisent."}
+];
+function newChallenge(){let q=Q[Math.floor(Math.random()*Q.length)];$("challengeQuestion").textContent=q.q;$("challengeOptions").innerHTML="";$("challengeFeedback").textContent="";q.o.forEach(o=>{let b=document.createElement("button");b.textContent=o;b.onclick=()=>{document.querySelectorAll("#challengeOptions button").forEach(x=>x.disabled=true);if(o===q.a){b.classList.add("correct");$("challengeFeedback").textContent="✓ Correct. "+q.w;$("challengeFeedback").style.color="#1a7446"}else{b.classList.add("wrong");[...document.querySelectorAll("#challengeOptions button")].find(x=>x.textContent===q.a)?.classList.add("correct");$("challengeFeedback").textContent="À revoir : "+q.w;$("challengeFeedback").style.color="#9d3038"}};$("challengeOptions").appendChild(b)})}
+$("newChallenge").onclick=newChallenge;update();newChallenge();
+
+</script>
+</body>
+</html>
