@@ -1,8 +1,8 @@
 import { Comfy } from "@comfyorg/sdk";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import type { GeneratedAsset, VisualPedagoRequestType } from "./contracts.js";
-import { buildVisualPedagoPrompt } from "./pedagogy.js";
+import type { GeneratedAsset, CreerVisuelPedagogiqueRequestType } from "./contracts.js";
+import { buildCreerVisuelPedagogiquePrompt } from "./pedagogy.js";
 
 type Manifest = {
   service: string;
@@ -21,8 +21,8 @@ function resolveConfiguredPath(value: string | undefined, fallback: string): str
 
 async function loadManifest(): Promise<Manifest> {
   const manifestPath = resolveConfiguredPath(
-    process.env.NACER_VISUAL_MANIFEST_PATH,
-    "../../workflows/nacer_visual_pedago_v1/manifest.json"
+    process.env.NACER_VISUEL_PEDAGOGIQUE_MANIFEST_PATH,
+    "../../workflows/creer_visuel_pedagogique_v1/manifest.json"
   );
   return JSON.parse(await readFile(manifestPath, "utf8")) as Manifest;
 }
@@ -35,14 +35,14 @@ function assertManifestReady(manifest: Manifest): void {
 
   if (placeholders.length) {
     throw new Error(
-      "WORKFLOW_NOT_CONFIGURED: export NACER_VISUAL_PEDAGO_V1 in API format, then replace manifest node placeholders."
+      "WORKFLOW_NOT_CONFIGURED: export NACER_CREER_VISUEL_PEDAGOGIQUE_V1 in API format, then replace manifest node placeholders."
     );
   }
 }
 
-export async function runVisualPedago(
+export async function runCreerVisuelPedagogique(
   requestId: string,
-  input: VisualPedagoRequestType
+  input: CreerVisuelPedagogiqueRequestType
 ): Promise<{
   workflowVersion: string;
   comfyJobId?: string;
@@ -59,7 +59,7 @@ export async function runVisualPedago(
       assets: [{
         type: "image",
         contentType: "image/png",
-        url: `mock://visual-pedago/${requestId}.png`,
+        url: `mock://creer-visuel-pedagogique/${requestId}.png`,
         expiresAt: null
       }]
     };
@@ -73,20 +73,20 @@ export async function runVisualPedago(
   }
 
   const workflowPath = resolveConfiguredPath(
-    process.env.NACER_VISUAL_WORKFLOW_PATH,
-    "../../workflows/nacer_visual_pedago_v1/workflow_api.json"
+    process.env.NACER_VISUEL_PEDAGOGIQUE_WORKFLOW_PATH,
+    "../../workflows/creer_visuel_pedagogique_v1/workflow_api.json"
   );
 
   const client = new Comfy({
     apiKey,
-    clientInfo: "nacer-pedago-lab/visual-pedago-v1"
+    clientInfo: "nacer-pedago-lab/creer-visuel-pedagogique-v1"
   });
 
   const workflow = await client.workflows.fromFile(workflowPath);
   workflow.setInput(
     manifest.inputs.prompt.nodeId,
     manifest.inputs.prompt.field,
-    buildVisualPedagoPrompt(input)
+    buildCreerVisuelPedagogiquePrompt(input)
   );
 
   // Ne pas réutiliser requestId comme Idempotency-Key Comfy.
