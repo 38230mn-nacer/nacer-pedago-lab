@@ -1,0 +1,21 @@
+{
+  "service": "visual-pedago-v1",
+  "serviceVersion": "1.0.0",
+  "workflow": "NACER_VISUAL_PEDAGO_V1",
+  "workflowVersion": "0.1.0",
+  "apiFormatFile": "workflow_api.json",
+  "inputs": {
+    "prompt": {
+      "nodeId": "__SET_AFTER_COMFY_EXPORT__",
+      "field": "text"
+    }
+  },
+  "output": {
+    "nodeId": "__SET_AFTER_COMFY_EXPORT__"
+  },
+  "policy": {
+    "containsStudentPII": false,
+    "requiresHumanVerification": true,
+    "deterministicMathOverlay": true
+  }
+}
