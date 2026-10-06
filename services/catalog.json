@@ -2,24 +2,24 @@
   "catalogVersion": "1.0.0",
   "services": [
     {
-      "id": "visual-pedago-v1",
-      "workflow": "NACER_VISUAL_PEDAGO_V1",
+      "id": "creer-visuel-pedagogique-v1",
+      "workflow": "NACER_CREER_VISUEL_PEDAGOGIQUE_V1",
       "contract": "services/comfy-gateway/openapi.yaml",
       "status": "scaffolded"
     },
     {
-      "id": "capsule-v1",
-      "workflow": "NACER_CAPSULE_V1",
+      "id": "creer-capsule-pedagogique-v1",
+      "workflow": "NACER_CREER_CAPSULE_PEDAGOGIQUE_V1",
       "status": "planned"
     },
     {
-      "id": "professeur-nacer-v1",
-      "workflow": "PROFESSEUR_NACER_V1",
+      "id": "creer-visuel-professeur-nacer-v1",
+      "workflow": "NACER_CREER_VISUEL_PROFESSEUR_NACER_V1",
       "status": "planned"
     },
     {
-      "id": "content-variants-v1",
-      "workflow": "NACER_CONTENT_VARIANTS_V1",
+      "id": "decliner-contenu-multiformat-v1",
+      "workflow": "NACER_DECLINER_CONTENU_MULTIFORMAT_V1",
       "status": "planned"
     }
   ]
