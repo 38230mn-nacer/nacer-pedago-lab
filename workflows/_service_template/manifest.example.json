@@ -1,0 +1,20 @@
+{
+  "service": "__SERVICE_ID__",
+  "serviceVersion": "1.0.0",
+  "workflow": "__WORKFLOW_NAME__",
+  "workflowVersion": "0.1.0",
+  "apiFormatFile": "workflow_api.json",
+  "inputs": {
+    "prompt": {
+      "nodeId": "__SET_AFTER_COMFY_EXPORT__",
+      "field": "text"
+    }
+  },
+  "output": {
+    "nodeId": "__SET_AFTER_COMFY_EXPORT__"
+  },
+  "policy": {
+    "containsStudentPII": false,
+    "requiresHumanVerification": true
+  }
+}
