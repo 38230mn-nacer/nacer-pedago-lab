@@ -1,13 +1,13 @@
-import type { VisualPedagoRequestType } from "./contracts.js";
+import type { CreerVisuelPedagogiqueRequestType } from "./contracts.js";
 
-const formatHints: Record<VisualPedagoRequestType["format"], string> = {
+const formatHints: Record<CreerVisuelPedagogiqueRequestType["format"], string> = {
   "visio-16-9": "Landscape 16:9 composition for screen sharing and live annotation.",
   "fiche-a4": "Portrait A4 composition with generous margins and printable visual hierarchy.",
   "square-1-1": "Square composition for reusable social or LMS cards.",
   "vertical-9-16": "Vertical 9:16 composition for short educational video."
 };
 
-export function buildVisualPedagoPrompt(input: VisualPedagoRequestType): string {
+export function buildCreerVisuelPedagogiquePrompt(input: CreerVisuelPedagogiqueRequestType): string {
   const mustShow = input.mustShow.length
     ? input.mustShow.map((x) => `- ${x}`).join("\n")
     : "- Only elements strictly necessary to reveal the concept.";
@@ -21,7 +21,7 @@ export function buildVisualPedagoPrompt(input: VisualPedagoRequestType): string 
     ...input.mustAvoid
   ].map((x) => `- ${x}`).join("\n");
 
-  return `Create one pedagogical visual layer for Nacer OS.
+  return `Create one clear pedagogical visual for Nacer OS.
 
 AUDIENCE
 Level: ${input.level}
