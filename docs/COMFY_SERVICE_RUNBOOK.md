@@ -13,7 +13,7 @@ npm run dev
 Vérifier :
 - `GET /health`
 - `GET /api/v1/services`
-- `POST /api/v1/visuals/generate`
+- `POST /api/v1/visuels-pedagogiques/generer`
 
 Exemple :
 
@@ -41,7 +41,7 @@ Exemple :
 ## B. Construire le workflow Comfy
 
 Dans Comfy Cloud + Comfy Agent :
-- créer `NACER_VISUAL_PEDAGO_V1` ;
+- créer `NACER_CREER_VISUEL_PEDAGOGIQUE_V1` ;
 - une entrée texte clairement identifiable ;
 - une sortie image explicite ;
 - pas de texte mathématique rasterisé ;
@@ -52,7 +52,7 @@ Dans Comfy Cloud + Comfy Agent :
 
 Exporter le workflow au format API et déposer :
 
-`workflows/nacer_visual_pedago_v1/workflow_api.json`
+`workflows/creer_visuel_pedagogique_v1/workflow_api.json`
 
 Puis remplacer les placeholders de `manifest.json` par les vrais IDs de nœuds.
 
@@ -96,4 +96,4 @@ Pour chacun :
 
 ## G. Prochaine brique
 
-Après validation de `visual-pedago-v1`, dupliquer le modèle de service pour `capsule-v1` plutôt que réinventer l'architecture.
+Après validation de `creer-visuel-pedagogique-v1`, dupliquer le modèle de service pour `creer-capsule-pedagogique-v1` plutôt que réinventer l'architecture.
