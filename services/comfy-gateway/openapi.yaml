@@ -1,0 +1,172 @@
+openapi: 3.1.0
+info:
+  title: Nacer Comfy Gateway
+  version: 0.1.0
+  description: Services média versionnés de Nacer OS.
+servers:
+  - url: http://localhost:8787
+paths:
+  /health:
+    get:
+      summary: État du gateway
+      responses:
+        "200":
+          description: OK
+  /api/v1/services:
+    get:
+      summary: Catalogue des services
+      responses:
+        "200":
+          description: Catalogue
+  /api/v1/visuals/generate:
+    post:
+      summary: Générer une couche visuelle pédagogique
+      operationId: generateVisualPedagoV1
+      parameters:
+        - in: header
+          name: X-Request-Id
+          required: false
+          schema:
+            type: string
+          description: Identifiant de traçabilité. Ce n'est pas une clé de déduplication.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VisualPedagoRequest"
+      responses:
+        "200":
+          description: Génération terminée ou simulée
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VisualPedagoResponse"
+        "400":
+          description: Requête invalide
+        "401":
+          description: Token invalide en mode live
+        "503":
+          description: Workflow ou configuration live indisponible
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    VisualPedagoRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - topic
+        - level
+        - objective
+        - keyIdea
+        - cognitiveStage
+      properties:
+        topic:
+          type: string
+        level:
+          type: string
+        objective:
+          type: string
+        keyIdea:
+          type: string
+        cognitiveStage:
+          type: string
+          enum:
+            - probleme-concret
+            - image-representation
+            - intuition
+            - formalisation
+            - automatisme
+            - transfert
+        format:
+          type: string
+          default: visio-16-9
+          enum:
+            - visio-16-9
+            - fiche-a4
+            - square-1-1
+            - vertical-9-16
+        mustShow:
+          type: array
+          maxItems: 10
+          items:
+            type: string
+        mustAvoid:
+          type: array
+          maxItems: 10
+          items:
+            type: string
+        variants:
+          type: integer
+          minimum: 1
+          maximum: 4
+          default: 1
+    VisualPedagoResponse:
+      type: object
+      required:
+        - requestId
+        - service
+        - serviceVersion
+        - workflow
+        - workflowVersion
+        - mode
+        - status
+        - trace
+        - assets
+        - verification
+      properties:
+        requestId:
+          type: string
+        service:
+          const: visual-pedago-v1
+        serviceVersion:
+          const: 1.0.0
+        workflow:
+          const: NACER_VISUAL_PEDAGO_V1
+        workflowVersion:
+          type: string
+        mode:
+          type: string
+          enum: [mock, live]
+        status:
+          type: string
+          enum:
+            - mocked
+            - generated
+            - verification-required
+            - approved
+            - stored
+        trace:
+          type: object
+          properties:
+            comfyJobId:
+              type: string
+        assets:
+          type: array
+          items:
+            type: object
+            required: [type, url, expiresAt]
+            properties:
+              type:
+                type: string
+              contentType:
+                type: string
+              url:
+                type: string
+              expiresAt:
+                type: [string, "null"]
+        verification:
+          type: object
+          required: [required, checks]
+          properties:
+            required:
+              const: true
+            checks:
+              type: array
+              items:
+                type: string
