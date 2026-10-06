@@ -72,11 +72,12 @@ Dans `.env` :
 
 ```env
 NACER_COMFY_MODE=live
+NACER_GATEWAY_TOKEN=<secret-long-et-aleatoire>
 COMFY_BASE_URL=https://<deployment>.run.comfy.app
 COMFY_API_KEY=comfyui-...
 ```
 
-Relancer le gateway. Le contrat HTTP côté Nacer OS ne change pas.
+Relancer le gateway. Le contrat HTTP côté Nacer OS ne change pas. En mode live, les appels de génération utilisent `Authorization: Bearer <NACER_GATEWAY_TOKEN>`.
 
 ## F. Critère de passage en production
 
