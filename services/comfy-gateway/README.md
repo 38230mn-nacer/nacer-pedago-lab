@@ -4,7 +4,7 @@ Gateway métier entre Nacer OS et Comfy API.
 
 ## Objectif
 
-Nacer OS appelle des services stables comme `visual-pedago-v1` sans connaître les détails internes du graph Comfy.
+Nacer OS appelle des services stables comme `creer-visuel-pedagogique-v1` sans connaître les détails internes du graph Comfy.
 
 Le même code peut cibler :
 - Comfy Cloud ;
@@ -37,7 +37,7 @@ Configurer :
 - `COMFY_BASE_URL`
 - le workflow API JSON et son manifeste.
 
-En mode live, `POST /api/v1/visuals/generate` exige :
+En mode live, `POST /api/v1/visuels-pedagogiques/generer` exige :
 
 ```
 Authorization: Bearer <NACER_GATEWAY_TOKEN>
